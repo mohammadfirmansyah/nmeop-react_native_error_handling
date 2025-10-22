@@ -3,11 +3,13 @@ import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
 
 const App = () => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   const clickFirstBtn = () => {
     try {
       throw new Error('This is a generic error');
     } catch (error) {
+      setError(error.message);
       Alert.alert('Error', 'An unexpected error occurred.');
       console.error(error);
     }
@@ -16,7 +18,9 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Error Example</Text>
-
+      {error && (
+        <Text style={{ color: 'red', marginBottom: 10 }}>{error}</Text>
+      )}
       <Pressable style={styles.pressable} onPress={clickFirstBtn} >
         <Text style={styles.pressText}>Button 1</Text>
       </Pressable>
